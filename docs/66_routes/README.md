@@ -166,13 +166,13 @@ Finaly, let's adjust our `app.vue` as follows:
     <div class="wrapper">
       <h1 class="text-info">Welcome to Webscripting</h1>
       <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <img alt="Vue logo" class="logo" src="@/assets/vives.png" height="36" />
+        <img alt="Vue logo" class="logo" src="@/assets/images/vives.png" height="36" />
         <RouterLink to="/" class="nav-link p-2">Home</RouterLink>
         <RouterLink to="/about" class="nav-link p-2">About</RouterLink>
       </nav>
     </div>
   </header>
-
+  <br/> 
   <RouterView />
 </template>
 ```
@@ -191,3 +191,19 @@ To do so we need to and the following as last route in our `routes/index.js` fil
 ```
 
 Now you just have to add a `NotFound.vue` file in your 'views' folder.
+
+```vue
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img alt="404 - Page not found" src="@/assets/images/404.png" height="90" />
+            </div>
+            <div class="col-md-8">
+                <h1>PAGE NOT FOUND</h1>
+                <p>Sorry the page you are looking for was not found!</p>
+            </div>
+        </div>
+    </div>
+</template>
+```
