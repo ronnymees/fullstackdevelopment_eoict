@@ -42,6 +42,12 @@ The result is a JSON object:
 
 ### Getting data
 
+Start a new Vue project (all default) and use the Boodstrap CDN for styling.
+
+```html
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+```
+
 To get data using a RESTful API, we are going to use the *fetch()* method.
 
 To begin, in `src/components` folder, create a new file GitHub.vue with the below code:
@@ -51,7 +57,7 @@ To begin, in `src/components` folder, create a new file GitHub.vue with the belo
     export default{
         methods:{
             async fetchGitHubUsers(){
-                const res = await fetch('https://api.github.com/search/users?q=devbit);
+                const res = await fetch('https://api.github.com/search/users?q=devbit');
                 const data = await res.json();
                 console.log(data.items);
             }
@@ -145,7 +151,7 @@ We now implement a page to display our GitHub user data, by using the Table comp
 </template>
 ```
 
-<!-- TODO : Afbeelding van resultaat toevoegen -->
+![image](./images/afbeelding1.png)
 
 ### Adding an Input to GitHub Results Display Page
 
