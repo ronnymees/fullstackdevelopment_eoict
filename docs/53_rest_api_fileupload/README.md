@@ -67,6 +67,11 @@ let uploadFileMiddleware = util.promisify(uploadFile);
 module.exports = uploadFileMiddleware;
 ```
 
+:::tip 💡Tip
+The name `file` in `.single("file")` is the name you give to the inputfield in your form.
+When testing this with Postman you also need give the key this name.
+:::
+
 ### Create controller for file upload/download
 
 In controller folder, create `file.controller.js`:
