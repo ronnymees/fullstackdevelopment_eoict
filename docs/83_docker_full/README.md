@@ -164,7 +164,7 @@ http {
 
 Now your project is ready for deployment, you can push it to GitHub.
 
-## Deploy on docker
+## Clone and deploy your project
 
 Now we will be using our GitHub repository for deployment on Docker.
 
