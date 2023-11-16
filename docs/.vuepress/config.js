@@ -49,6 +49,7 @@ module.exports = {
         children: [
           '/31_communication/README.md',
           '/32_frontend_scripting_js/README.md',
+          '/35_using_api/README.md',
           '/33_typescript/README.md',
           '/34_advanced_js/README.md',
         ]
