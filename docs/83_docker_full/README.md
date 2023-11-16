@@ -1,240 +1,90 @@
-# Deploy your project on a Docker container
+# Deploy a MySQL, Express & Vue project
 
-First you need to have a server or virtual machine to work on. In our case we then have setup a VPN tunnel to that server and use the extension `ssh remote` to connect to the server through Visual Code.
-
-## Installation of Docker and Docker-compose
-
-For the installation of docker I will be refering to the install procedure "[Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)"
-
-## Making the directory structure in docker
-
-1. Add `docker` folder to `/opt/`
-
-```bash
-cd /opt
-sudo mkdir docker
-
-```
-
-2. Make the docker-group the owner
-
-```bash
-sudo chown root:docker docker
-```
-
-3. Change rights to write
-
-```bash
-sudo chmod g+w docker
-```
-
-4. Change rights to make sure that new folder enherite the same rights
-
-```bash
-sudo chmod g+s docker
-```
-
-5. Add `compose`, `data` and `apps` folder 
-
-```bash
-cd docker
-sudo mkdir compose
-sudo mkdir data
-sudo mkdir apps
-```
-
-We will be using the folder `compose` to run Docker Containers from third party images like mySQL.
-The folder `apps` will be used to run Docker Containers from a complete GitHub repository.
-And the `data` folder will contain the data from our running containers. That makes it easier to manage Backup systems.
-
-6. Add user `<user>` to the docker-group
-
-```bash
-sudo adduser <user> docker
-```
-
-7. Changer rights to write for the new folders
-
-```bash
-cd ..
-sudo chmod -R g+w docker
-```
-
-## Deploying a static website on Docker
-
-For this we need to create a GitHub repo that contains the project folder of our website.
-
-![IMAGE](./images/image1.png)
-
-Next we need to create a `docker-compose.yml` file.
-
-```yml
-version: '3'
-services:
-  website:
-    build:
-      context: ./website
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    ports:
-      - 80:80
-    container_name: frontend-ui
-```
-
-* `version: '3'` :  This instructs Docker Compose that we’re using version 3 of the tool.
-* `services:` : This will instruct Docker Compose that what follows will be the services to deploy. 
-* `restart: unless-stopped` : We instruct Docker to always retry to start this service unless it was stopped by the admin.
-* `ports:` : We define both the external and internal ports to use for the database. 
-* `container_name: ` : If you want your container to have a specific name you can define it like this.
-
-In your project folder you now need to add a Docker file `Dockerfile`:
-
-```docker
-FROM nginx:1.25.1-alpine
-COPY . /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-We will be using NGINX for our web server on port 80 which is the default port.
-
-To deploy start the docker container we use the command `docker-compose up -d`, and to stop it again we can use `docker-compose down`.
-
-## Deploying a mySQL server on Docker
-
-Because we are only building a mySQL server container that is stand-alone we will be building our project in the folder `compose`.
-
-### Docker-compose file
-
-In a newly created folder for our project we need to start building a `docker-compose.yml` file.
-
-```bash
-cd compose
-sudo mkdir mysql-server
-nano docker-compose.yml
-```
-
-::: tip 💡 Tip
-You can also open the `/opt/docker/` folder in Visual Code and then use that UI for adding/editing folders and files.
+:::warning 🔥warning
+Make sure you have prepared your VM before continuing here.
 :::
 
-```yml
+## Prepare your project for deployment
+
+To be able to deploy our web application on the VM we need to prepare it.
+
+### Create a GitHub repository for deployment
+
+* create a new repository on github
+* create a local folder `<projectname>` with the subfolders `backend-api` and `frontend-vue`.
+* make a copy of your **express** project to the folder `backend-api`.
+* make a copy of your **vue** project to the folder `frontend-vue`.
+* open the folder `<projectname>` in Visual Code and open a terminal
+* make it a git repository by typing `git init`.
+* add the remote GitHub repository by typing `git remote add origin git@github.com:yourusername/repositoryname.git` (the last part is your SSH link from your GitHub repository)
+* make a first push 
+
+### Preparing the necessary files for docker
+
+#### Docker compose file
+
+First we will be creating the docker compose file that will contain the necessary services that need to be deployed on docker ( MySQL, PHPmyAdmin, Backend-API and Frontend-Vue).
+
+Create a file `docker-compose.yml` in the folder  `<projectname>` with the following content:
+
+``` yaml
 version: '3'
 services:
   db:
     image: mysql
-    restart: unless-stopped
-    ports:
-      - 3306:3306
-    env_file: ./.env
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQLDB_DATABASE}
     volumes:
-      - /opt/docker/data/mysql-server:
-      /var/lib/mysql
-    container_name: mysql-server
-```
-
-* `db:` : This is the db service that will be defined.
-* `image: mysql` : We instruct Docker Compose to use the mysql image for the database.
-* `env_file: ./.env` : To be able to use those Environmental variables we need to define in which file they are defined.
-* `environment:` : We configure the database environment. The environment will be the configuration options for the database (passwords, users, database name).
-* `volumes:` : This is optional, but in our case we want the data to be writen in our data folder we made. Therefore we define both the internal and external path.
-
-### Environmental variables
-
-Once our Docker-compose file is ready, we need to make our file with the Environmental variables named `.env`.
-
-```env
-# mySQL database
-MYSQLDB_ROOT_PASSWORD=<your root password>
-MYSQLDB_DATABASE=vives
-```
-
-### Deploy on docker
-
-Once we have done that, we are ready to build and run our service.
-
-* use `docker-compose up` to deploy your container in attached mode, so you won't get your bash prompt returned.
-* use `docker-compose up -d` to deploy your container, now you get your bash prompt returned.
-* use `docker-compose up --force-recreate --build -d` to deploy your container and rebuild them after adjustments have been made.
-* use `docker-compose ps` to see the name of the containers and status.
-* use `docker-compose down` to stop and remove the docker containers.
-* use `docker-compose down -v` to stop and remove the docker containers and volumes.
-
-Once our service is running we can connect to it with WorkBench and create our webuser like we did [before](../45_create_db_user).
-
-:::tip 💡 Tip
-Now you will need to change the 'webuser'@'localhost' to 'webuser'@'%'.
-:::
-
-## Deploying a Express.js Backend-API on Docker
-
-Now let's dockerize a backend API made in Express.js that provides the CRUD actions to a database.
-
-In stead of creating a new project folder in `compose` we will be editing our project repository (if you want you can make a new 'docker' branch for this).
-
-### Docker-compose file
-
-Again in the root folder of the project we create a `docker-compose.yml` file starting form our previous one:
-
-```yml
-version: '3'
-services:
-  db:
-    image: mysql
-    restart: unless-stopped
+      - db:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
     ports:
-      - 3306:3306
-    env_file: ./.env
+      - "8080:80"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQLDB_DATABASE}
-    volumes:
-      - /opt/docker/data/mysql-server:/var/lib/mysql
-    container_name: mysql-server
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
   api:
     depends_on:
       - db
     build:
-      context: ./<backend directory>
+      context: ./backend-api
       dockerfile: Dockerfile
-    restart: unless-stopped
-    env_file: ./.env
+    restart: always
     ports:
       - 3000:3000
     environment:
       - DB_HOST=db
       - DB_USER=${MYSQLDB_USER}
-      - DB_USER_PASSWORD=${MYSQLDB_USER_PASSWORD}
+      - DB_PASS=${MYSQLDB_USER_PASS}
       - DB_NAME=${MYSQLDB_DATABASE}
       - DB_PORT=3306
-    container_name: backend-api
-```
+  ui:
+    depends_on: 
+       - api
+    build:
+      context: ./frontend-vue
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      - VUE_APP_API_HOST=<your server ip-adress>:3000
+volumes:
+  db:
+``` 
 
-* `depends_on:` : Dependency order, db is started before api.
-* `build:` : Configuration options that are applied at build time that we will define in the Dockerfile with relative path
+Notice that the MySQL server port 3306 is not exposed, so our database is not accessable outside docker.
 
-### Environmental variables
+#### Docker file for the backend API
 
-Now we need to complete our `.env` file as follows:
+Create a file `Dockerfile` in the folder `backend-api` with the following content:
 
-```env
-# mySQL database
-MYSQLDB_ROOT_PASSWORD=<your root password>
-MYSQLDB_DATABASE=vives
-
-# API
-MYSQLDB_USER=webuser
-MYSQLDB_USER_PASS=secretpassword
-```
-
-### Docker file for the backend API
-
-Next, in the folder of your backend API you need to create a Docker file that has a development and a build stage.
-
-```docker
+``` yaml
 # Development stage
 FROM node:18.16-alpine3.17 as develop-stage
 WORKDIR /app
@@ -248,69 +98,11 @@ EXPOSE 3000
 CMD ["npm", "run", "start"]
 ```
 
-* `FROM` : start the image from node.js version 18.
-* `WORKDIR` : setup a working directory
-* `COPY` : copy all files to the image
-* `RUN` : install all dependencies
-* `EXPOSE` : expose the backend api on port 3000
-* `CMD` : start the backend.
+#### Docker file for the frontend Vue
 
-### Change hostname in your backend
+Create a file `Dockerfile` in the folder `frontend-vue` with the following content:
 
-Next we need to change the localhost to the Environmental variable `DB_HOST` that has the name of the mySQL service, and this in all our file's where we make a database connection.
-
-```js
-const DB_HOST = process.env.DB_HOST;
-```
-
-### Deploy on docker
-
-Now you need to clone your docker repo, by using the https link in `code`, in your `apps` folder.
-
-```bash
-cd apps
-git clone <https link repo>
-```
-
-then go to your project and deploy it like we did with the mySQL server.
-
-Once your project is deployed on Docker you will again need to add our webuser and run the `restore.sql` script from the project to create the necessary tables.
-
-## Deploying a full project with Vue Ui, Express Api and mySQL database on docker
-
-Now let's add a Vue frontend to the project.
-
-### Docker-compose file
-
-We add a new service `ui` to our `docker-compose.yml` file:
-
-```yml
-version: '3'
-services:
-  db:
-    ...
-  api:
-    ...
-  ui:
-    depends_on: 
-       - api
-    build:
-      context: ./<frontend directory>
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    ports:
-      - 80:80
-    environment:
-      - VUE_APP_API_HOST=<your server ip-adress>:3000
-    container_name: frontend-ui    
-```
-
-### Docker file for the frontend UI
-
-In the folder of your frontend UI you need to create a Docker file. This time it exists of a development, a build and a production stage.
-
-**Frontend-UI**
-```dockerfile
+``` yaml
 # Development Stage
 FROM node:18.16-alpine3.17 as develop-stage
 WORKDIR /app
@@ -326,14 +118,14 @@ RUN npm run build
 FROM nginx:1.25.1-alpine as production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY 30-vue-env-replace.sh /docker-entrypoint.d
+COPY vue-env-replace.sh /docker-entrypoint.d
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-Let's take a closer look at this development stage. 
+#### Hosting configuration
 
-We are using nginx as a webserver to host our website. In our Vue project folder we need a `nginx.conf` file, with the following content:
+We are using `nginx` to host our frontend, therefore we need to configure it by adding a `nginx.conf` file in the `frontend-vue` folder with the following content:
 
 ```conf
 user  nginx;
@@ -368,7 +160,45 @@ http {
 }
 ```
 
-An other problem that we will have is that environment variables are injected into the application during the build stage. The resulting static files thus contain the respective values of those variables as hardcoded strings. To solve this we will use a script `30-vue-env-replace.sh` to replace all environment variables with there correct values.
+### Push to your GitHub repository
+
+Now your project is ready for deployment, you can push it to GitHub.
+
+## Deploy on docker
+
+Now we will be using our GitHub repository for deployment on Docker.
+
+### Clone your repository on docker
+
+Make a remote connection to your VM using Visual Studio Code.
+
+Open a terminal and clone your repository:
+
+```bash
+git clone <https link repo>
+```
+
+### Environment variables
+
+Open your projectfolder in remote connection of Visual Studio Code.
+
+#### Create the environment variables file
+
+Next we need to create a ´.env´ file in the folder  `<projectname>` with the following content:
+
+```env
+# mySQL database
+MYSQLDB_ROOT_PASSWORD=<your root password>
+MYSQLDB_DATABASE=vives
+MYSQLDB_USER=<a_user_for_your_database>
+MYSQLDB_USER_PASS=<a_password_for_this_user>
+```
+
+#### Solve a problem for the frontend
+
+For the Vue frontend we will have a problem that environment variables are injected into the application during the build stage. The resulting static files thus contain the respective values of those variables as hardcoded strings. To solve this we will use a script `vue-env-replace.sh` to replace all environment variables with there correct values.
+
+You can please the `vue-env-replace.sh` in your `frontend-vue` folder with the following content:
 
 ```bash
 #!/bin/sh
@@ -384,18 +214,63 @@ done
 exit 0
 ```
 
-Once you created this file, you will need to run the command `chmod +x 30-vue-env-replace.sh` to make the script executable.
+Once you created this file, you will need to run the command `chmod +x vue-env-replace.sh` to make the script executable.
 The script will be executed by Docker because we have put it in the entrypoint. 
 
-### Change hostname and port in your frontend
+#### Change static URL to environment variable
 
-In your frontend you need to change the `localhost` to the Evironmental variable.
+In your Vue frontend you need to change all `localhost:3000` to `${VUE_APP_API_HOST}`.
 
+Example:
 ```js
-const url = `http://${VUE_APP_API_HOST}/weerinfo`;            
+axios.get('http://${VUE_APP_API_HOST}/images')
 ```
 
 ### Deploy on docker
 
-For the deployment the same steps must be taken as previous with the backend.
+Once we have done that, we are ready to build and run our service.
+
+* use `docker-compose up -d` to deploy your container, now you get your bash prompt returned.
+* use `docker-compose up -d --build` to deploy your container and rebuild them after adjustments have been made.
+* use `docker-compose ps` to see the name of the containers and status.
+* use `docker-compose down` to stop and remove the docker containers.
+* use `docker-compose down -v` to stop and remove the docker containers and volumes.
+
+![containers](./images/containers.png)exit
+
+Should you want to open a terminal in one of the containers running on docker, you can do this by using this command:
+```bash
+docker exec -it <the name of the container> sh
+```
+To exit just type `exit`.
+
+### Prepare the database
+
+#### Create a user for the application
+
+In your browser open PHPmyAdmin by surfing to `<ip-adres-of-your-vm>:8080` and run the following sql-statement:
+
+```sql
+USE vives;
+CREATE USER '<a_user_for_your_database>'@'%' IDENTIFIED WITH mysql_native_password BY "<a_password_for_this_user>";
+GRANT ALL PRIVILEGES ON vives.* TO '<a_user_for_your_database>'@'%';
+```
+
+:::tip 💡tip
+The user and password must be the same as you entered in your `.env` file.
+:::
+
+
+#### Create the necessary tables
+
+Run the SQL-statement script you made to restore your database tables.
+
+Congratulations your project should be up and running now.
+
+
+
+
+
+
+
 

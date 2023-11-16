@@ -1,13 +1,21 @@
-# Deploy a static website
+# Deploy a HTML,CSS & JS project
+
+:::warning 🔥warning
+Make sure you have prepared your VM before continuing here.
+:::
 
 ## Prepare your project for deployment
 
 To be able to deploy our website on the VM we need to prepare it.
 
+:::tip 💡tip
+Please check if all your URL's are relative (HTML and CSS)
+:::
+
 ### Create a GitHub repository for deployment
 
 * create a new repository on github
-* create a folder `<projectname>` with a subfolder `website`
+* create a local folder `<projectname>` with a subfolder `website`
 * make a copy of your project to the folder `website`
 * open the folder `<projectname>` in Visual Code and open a terminal
 * make it a git repository by typing `git init`.
