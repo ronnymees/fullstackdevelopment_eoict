@@ -22,14 +22,14 @@
     "homepage": "https://github.com/ronnymees/fullstackdevelopment_eoict#readme",
     "type": "module",
     "devDependencies": {
-      "@vuepress/bundler-vite": "^2.0.0-rc.0",
-      "@vuepress/plugin-container": "^2.0.0-rc.0",
-      "@vuepress/plugin-register-components": "^2.0.0-rc.0",
+      "@vuepress/bundler-vite": "^2.0.0-rc.22",
+      "@vuepress/plugin-container": "^2.0.0-beta.49",
+      "@vuepress/plugin-register-components": "^2.0.0-beta.49",
       "sass": "1.87.0",
       "sass-embedded": "1.87.0",
-      "vuepress": "^2.0.0-rc.0"
+      "vuepress": "^2.0.0-beta.49"
     },
     "dependencies": {
-      "@vuepress/theme-default": "^2.0.0-rc.0"
+      "@vuepress/theme-default": "^2.0.0-beta.49"
     }
   }
