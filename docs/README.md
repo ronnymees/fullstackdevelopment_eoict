@@ -2,10 +2,6 @@
 
 ![Netlify Status](https://api.netlify.com/api/v1/badges/2da24422-0bbe-45a8-a291-54c5d790d80f/deploy-status)
 
-This course is still in development.
-
-![image](/files/construction.jpg)
-
 ## Introduction
 
 This course is developed for PBA Electronics-ICT at [University College VIVES](https://www.vives.be/nl/technology/elektronica-ict).
@@ -27,8 +23,7 @@ During this course you will learn the basics of HTML5, CSS3, Javascript, Typescr
 This work is the result of the knowledge of the writer & colleagues at VIVES University college:
 
 * Ronny Mees
-* Nico De Witte
-* Sille Van Landschoot
+* Nico De Witte, Sille Van Landschoot and Ludovic Espeel
 
 And professionally relevant sources such as:
 

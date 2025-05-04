@@ -1,30 +1,28 @@
 import { containerPlugin } from '@vuepress/plugin-container'
-import { defaultTheme } from '@vuepress/theme-default'
 import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
 import { path } from '@vuepress/utils'
+import { defaultTheme } from '@vuepress/theme-default'
+import { viteBundler } from '@vuepress/bundler-vite'
 
-module.exports = {
+export default {
   lang: 'en-US',
-  title: 'Course Full Stack Development - Professional Bachelor Elektronica-ICT',
+  title: 'Full Stack Development',
   description: 'Course Full Stack Development',
   
   theme: defaultTheme({
-    logo: '/files/afbeelding1.png',
+    colorMode: 'light',
+    colorModeSwitch: false,
     navbar: [
-      { text: 'Home', link: '/' },
-      { text: 'Organization', link: 'https://www.vives.be' },      
-      { text: 'Contact', link: 'mailto:ronny.mees@vives.be' }
+
     ],
     sidebar: [
       {
-        text: 'Development Tools',
-        collapsible: true,
+        text: 'Development Tools',        
         children: [
           '/01_developmenttools/README.md',          
         ]
       },{
         text: 'Introduction',
-        collapsible: true,
         children: [
           '/11_history_and_evolution/README.md',
           '/12_tcp_ip_stack/README.md',
@@ -34,7 +32,6 @@ module.exports = {
         ]
       },{
         text: 'Frontend Webdesign',
-        collapsible: true,
         children: [
           '/21_folder_structure/README.md',
           '/22_webstructure_html/README.md',
@@ -45,7 +42,6 @@ module.exports = {
         ]
       },{
         text: 'Frontend Scripting',
-        collapsible: true,
         children: [
           '/31_communication/README.md',
           '/32_frontend_scripting_js/README.md',
@@ -55,18 +51,15 @@ module.exports = {
         ]
       },{
         text: 'Backend databases',
-        collapsible: true,
         children: [
           '/41_databases/README.md',
           '/42_setup_mysql/README.md',
           '/43_setup_mariadb/README.md',
-          //'/44_install_phpmyadmin/README.md',
           '/45_create_db_user/README.md',
           '/46_crud_db/README.md',
         ]
       },{
         text: 'Backend Scripting',
-        collapsible: true,
         children: [
           '/51_intro_express/README.md',
           '/52_rest_api_crud/README.md',
@@ -75,7 +68,6 @@ module.exports = {
         ]
       },{
         text: 'Frontend Development',
-        collapsible: true,
         children: [
           '/61_frontend_vue/README.md',
           '/66_routes/README.md',
@@ -86,28 +78,20 @@ module.exports = {
         ]
       },{
         text: 'Privacy regulations',
-        collapsible: true,
         children: [
-          '/73_privacy/README.md',
-          //'/72_login/README.md',
-          //'/71_secure_api/README.md',          
+          '/73_privacy/README.md',         
         ],
       },{
         text: 'Deployment',
-        collapsible: true,
         children: [
           '/81_vm/README.md',
           '/82_docker_static/README.md',
-          '/83_docker_full/README.md',
-          //'/72_login/README.md',
-          //'/71_secure_api/README.md',          
+          '/83_docker_full/README.md',          
         ],
       }
     ],
-    sidebarDepth: 1,
-    repo: 'https://github.com/ronnymees/fullstackdevelopment_eoict',
-    docsDir: 'docs',
-    docsBranch: 'master',
+    sidebarDepth: 0,    
+    smoothScroll: true
   }),
   serviceWorker: true,
   plugins: [
@@ -123,4 +107,5 @@ module.exports = {
       componentsDir: path.resolve(__dirname, './components'),
     }),
   ],
+  bundler: viteBundler()
 }

@@ -1,0 +1,72 @@
+:root {
+    // Text colors
+    --vp-c-text: #2c3e50;
+    --vp-c-accent: #dc322f;
+    
+    // Border colors
+    --vp-c-border: #eaecef;
+    
+    // Code blocks colors
+    --vp-code-bg-color: #282c34;
+   
+
+    // Badge component colors
+    --vp-c-badge-tip: #42b983;
+    --vp-c-badge-warning: darken(#ffe564, 35%);
+    --vp-c-badge-danger: #DA5961;
+    --vp-c-badge-output: #eee8d5;
+
+    // Layout
+    --navbar-height: 3.6rem;
+    --sidebar-width: 20rem;
+    --content-width: 100%;
+    --homepage-width: 100%;
+
+    // Back to top
+    --back-to-top-c-accent-bg: #dc322f;
+    --back-to-top-c-accent-hover: #DA5961;
+
+    // Sidebar
+    --vp-c-accent-bg:#DA5961;
+    
+}
+
+// Custom Block 
+.hint-container-title::before {
+  display: none;
+}
+
+.hint-container.important .hint-container-title, .hint-container.info .hint-container-title, .hint-container.note .hint-container-title, .hint-container.tip .hint-container-title, .hint-container.warning .hint-container-title, .hint-container.caution .hint-container-title {
+  padding-inline-start: 0;
+}
+
+// Sidebar
+.vp-sidebar-heading{
+    background-color: #002b36;
+    color: #fdf6e3;
+}
+
+// code output
+.codeoutput {
+    background-color: #eee8d5;    
+    border-radius: 0.4rem;
+    font-family: Consolas, monospace;
+    padding: 0.1rem 1.5rem;    
+  
+    .custom-container-title {
+      font-weight: bold;
+    }
+  
+    pre {
+      margin: 0;
+      padding: 1rem;
+      white-space: pre-wrap;       /* css-3 */
+      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+      white-space: -pre-wrap;      /* Opera 4-6 */
+      white-space: -o-pre-wrap;    /* Opera 7 */
+    }
+  }
+
+
+
+

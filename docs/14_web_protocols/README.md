@@ -127,9 +127,9 @@ The client processes the response and generates an output for the user
 
 ## DNS - Domain Name System
 
-> Domain Name System (DNS) is a hierarchical distributed naming system for computers, services, or any resource connected to the Internet Source: wikipedia
+> Domain Name System (DNS) is a hierarchical distributed naming system for computers, services, or any resource connected to the Internet <br>Source: wikipedia
 
-Translates domain names, which can be easily memorized by humans, to the numerical IP addresses needed for the purpose of computer services and devices worldwide
-www.wikipedia.org --> 91.198.174.192
+Translates domain names, which can be easily memorized by humans, to the numerical IP addresses needed for the purpose of computer services and devices worldwide 
+`www.wikipedia.org --> 91.198.174.192`
 
 ![IMAGE](./images/image29.png)

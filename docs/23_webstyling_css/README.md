@@ -12,7 +12,7 @@ CSS is designed to allow the separation of presentation and content of a web pag
 
 To better understand how CSS works, think about each HTML element as a frame. What CSS actually does is define the layout of such a frame.
 
-## Methods
+## Methods to use CSS
 
 ### In line
 
@@ -46,18 +46,18 @@ body{
     background-color: green;
 }
 ```
-This `.css` file must then of course be linked to the HTML page.
+This `.css` file must then of course be linked to the HTML page in the `head` section.
 
 ```html
 <link rel="stylesheet" type="text/css" href="/styles/style.css">
 ```
 
 ::: warning 🔥'Good practice'
-Working with an external CSS file is preferred, so we will only use this method for this course.
+Working with an external CSS file is preferred, so we will use this method as much as possible for this course.
 :::
 
 ::: tip 💡Tip
-If you want to use multiple style sheets and do not want to overload your html code with them, you can place the link to your master style.css file in your html code and then import the others into your style.css.
+If you want to use multiple style sheets and do not want to overload your HTML code with them, you can place the link to your master `style.css` file in your html code and then import the others into your `style.css`.
 
 ```css
 @import "/styles/forms.css"
@@ -72,7 +72,7 @@ html{
 
 ### Overwrite
 
-CSS works on the principle that the last change is what will actually be visible.
+CSS works on the principle that the **last change/rule is what will actually be visible**.
 
 e.g. if a CSS file (the same or a file loaded before it) says:
 
@@ -140,131 +140,144 @@ comments */
 
 ### Selector
 
-1. The selector selects an HTML element based on its element name.
+#### 1. Element selector
 
-     In this example, all `<p>` elements are centered on the page and given a red text color:
-     ```css
-     p {
-         text-align: center;
-         colour: red;
-     }
-     ```
-2. The id selector uses the id attribute of an HTML element to select a specific element.
+It selects an HTML element based on its element name.
 
-     An element ID is unique in a page, so it is used to select one element.
+In this example, all `<p>` elements are centered on the page and given a red text color:
+```css
+p {
+   text-align: center;
+   color: red;
+}
+```
+
+#### 2. Id selector
+
+It uses the id attribute of an HTML element to select a specific element.
+
+An element ID is unique in a page, so it is used to select one element.
     
-     To select an element with a specific id we write a `#` before the id name of this element:
-     ```css
-     #para1 {
-         text-align: center;
-         colour: red;
-     }
-     ```
-3. The class selector uses the class attribute of an HTML element to select it.
+To select an element with a specific id we write a `#` before the id name of this element:
+```css
+#para1 {
+   text-align: center;
+   color: red;
+}
+```
 
-     To select an element with a specific class, we write a `.` before the class name of this element:
-     ```css
-     .center {
-         text-align: center;
-         colour: red;
-     }
-     ```
-4. Combined selector
+#### 3. Class selector
 
-     In this example, only `<p>` elements with the class="center" are formatted:
-     ```css
-     p.center {
-         text-align: center;
-         colour: red;
-     }
-     ```
-5. Grouped selector
+It uses the class attribute of an HTML element to select it.
 
-     Here all h1, h2, and p elements are formatted:
-    ```css
-     h1, h2, p {
-         text-align: center;
-         colour: red;
-     }
-     ```
+To select an element with a specific class, we write a `.` before the class name of this element:
+```css
+.center {
+   text-align: center;
+   color: red;
+}
+```
 
-6. Pseudo class selector
+#### 4. Combined selector
 
-     The pseudo class selector will select a state or relationship of an element:
-     ```css
-     a:hover {
-       background-color: green;
-       colour: white;
-     }
-     ```
-7. Pseudo element selector
+In this example, only `<p>` elements with the `class="center"` are selected:
+```css
+p.center {
+   text-align: center;
+   color: red;
+}
+```
 
-     To select part of an element:
-     ```css
-     p::first-line {
-       font-size: 12px;
-     }
-     ```
+#### 5. Grouped selector
 
-8. Attribute selector
+Here all `<h1>`, `<h2>`, and `<p>` elements are selected:
+```css
+h1, h2, p {
+   text-align: center;
+   color: red;
+}
+```
 
-     You can select something based on attribute value:
-     ```css
-     input[type=button]{
-       colour: green;
-     }
-     ```
+#### 6. Pseudo class selector
 
+The pseudo class selector will select a state or relationship of an element:
+```css
+a:hover {
+   background-color: green;
+   color: white;
+}
+```
+
+#### 7. Pseudo element selector
+
+Is to select a part of an element:
+```css
+p::first-line {
+   font-size: 12px;
+}
+```
+
+#### 8. Attribute selector
+
+You can select something based on an attribute value:
+```css
+input[type=button] {
+   color: green;
+}
+```
 ### Apply color
 
 We know several ways to apply color in CSS:
 
-1. By the color name
+#### 1. By a color name
 
-     You can refer to a color by its name (<a href="https://www.w3schools.com/colors/colors_names.asp" target="_blank">list</a>)
+You can refer to a color by its name (<a href="https://www.w3schools.com/colors/colors_names.asp" target="_blank">list</a>).
 
-     ```css
-     h1 {
-         background-color: red;
-     }
-     ```
-2. Via the RGB value
+```css
+h1 {
+   background-color: red;
+}
+```
+
+#### 2. By a RGB value
  
-     You can refer to a color by its RBG value where each parameter (red, green, blue) represents a color intensity between 0 and 255.
+You can refer to a color by its RBG value where each parameter (red, green, blue) represents a color intensity between 0 and 255.
     
-     ```css
-     h1{
-         color: rgb(60, 179, 113);
-     }
-     ```
-     By using **rgba(red,green,blue,alpha)** you can add transparency. The alpha parameter is a number between 0.0 (fully transparent) and 1.0 (not transparent at all)
+```css
+h1 {
+   color: rgb(60, 179, 113);
+}
+```
+By using **rgba(red,green,blue,alpha)** you can add transparency. The alpha parameter is a number between 0.0 (fully transparent) and 1.0 (not transparent at all)
 
-3. Via the hex value
+#### 3. By an hex value
 
-     You can refer to a color by its hexadecimal value **#rrggbb** where rr(red), gg(green) and bb(blue) are hexadecimal values between 00 and FF.
+You can refer to a color by its hexadecimal value **#rrggbb** where rr(red), gg(green) and bb(blue) are hexadecimal values between 00 and FF.
 
-     eg #ff0000 is shown as red because rr was given the value FF while the other colors were given a value of 00.
-     ```css
-     table{
-         color: #6a5acd;
-     }
-     ```
-4. Via the HSL value
+e.g. #ff0000 is shown as red because rr was given the value FF while the other colors were given a value of 00.
+```css
+   table {
+      color: #6a5acd;
+   }
+```
 
-     You can refer to a color by its hue, saturation and brightness **hsl(hue, saturation, lightness)**
+#### 4. By the HSL value
 
-     Hue (hue) is the number of degrees on the color wheel from 0 to 360 where 0 is red, 120 is green, and 240 is blue.
+You can refer to a color by its hue, saturation and brightness **hsl(hue, saturation, lightness)**
+
+Hue (hue) is the number of degrees on the color wheel from 0 to 360 where 0 is red, 120 is green, and 240 is blue.
     
-     Saturation is expressed in percent where 0% is a shade of gray and 100% represents the full color.
+Saturation is expressed in percent where 0% is a shade of gray and 100% represents the full color.
 
-     Lightness is also expressed in percent where 0% is black and 100% is white.
+Lightness is also expressed in percent where 0% is black and 100% is white.
 
-     ```css
-     .card{
-         background-color: hsl(39, 100%, 50%);
-     }
-     ```
-     Again you can use **hsla(hue, saturation, lightness, alpha)** to add transparency.
+```css
+.card{
+   background-color: hsl(39, 100%, 50%);
+}
+```
+
+Again you can use **hsla(hue, saturation, lightness, alpha)** to add transparency.
 
 If you are looking for a specific color, this [color picker](https://www.w3schools.com/colors/colors_picker.asp) can be a useful tool.
 
@@ -379,7 +392,7 @@ h1 {
 Always use `" "` around text with spaces.
 :::
 
-### Left
+### Hyperlinks
 
 You can style a hyperlink as follows:
 
@@ -522,3 +535,9 @@ ul {
 }
 ```
 
+## CSS validation
+
+Sometimes your webpage may not display correctly in the browser as expected. Additionally, there may be differences in how your webpage appears across different browsers. Possible causes:
+* Although CSS has been standardized by [W3C](https://www.w3.org), some CSS features, especially newer ones, may not be supported or correctly interpreted by the browser. 
+  * Note: CSS3 is still being developed, new features are occasionally added but not immediately supported by all browsers.
+* More likely, there are certain **syntax errors** in your CSS code. However, the browser will never show error messages for syntax errors! Instead, it tries to render something from your code. **This is why it's important to validate your CSS code too, which can be done using the [W3C CSS Validator](https://jigsaw.w3.org/css-validator).** A valid HTML document with valid CSS code provides a better guarantee that the webpage will be displayed correctly in different browsers.

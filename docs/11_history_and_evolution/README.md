@@ -118,8 +118,25 @@ Some examples of web 2.0 websites:
 
 ![IMAGE](./images/image6.png)
 
+After Web 2.0, there are other newer "versions" in circulation that offer even more possibilities:
+* Web 2.5: unofficial intermediate version
+    * Especially mobile & cloud computing: mobile apps and websites for users to connect them on any devices, anytime and anywhere.
+* Web 3.0: semantic web
+    * Web with the rise of Artificial Intelligence. Recognise people, places, events, ...
+    * E.g. Apple's Siri, Wolfram Alpha, ChatGPT, ...
+* Web 4.0: web OS
+    * At this moment, no clear explanation than: "make the internet more user-friendly, efficient, personalized, interactive, intelligent and collaborative".
+
+Remarks:
+* Approximately every decade, there is a new "version" of the web, though this is, of course, theoretical.
+* It's important to know that on the internet, we can have a mix: websites that adhere to Web 1.0, websites that adhere to Web 3.0, and so on.
+
 ## Internet of Things
 
-The next (r)evolution in the internet is called the Internet of Things or IoT. The IoT tries to connect the world to the internet. Everyday devices and things will have access to data on the internet. This will enable to make these things smarter by exchanging information with each other.
+The next (r)evolution in the internet is called the *Internet of Things* or *IoT*. 
 
-All these smart devices generate a massive amount of data. A new challenge that has raised is the management of this data and extracting valuable information. This is called big-data.
+![IMAGE](./images/image7.png)
+
+The IoT tries to connect the world to the internet. Everyday devices and things will have access to data on the internet. This will enable to make these things smarter by exchanging information with each other.
+
+All these smart devices generate a massive amount of data. A new challenge that has raised is the management of this data and extracting valuable information. This is called *big-data*.

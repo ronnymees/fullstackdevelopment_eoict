@@ -164,9 +164,10 @@ Some commonly used characters:
 * `&copy;` - copyright
 * `&reg;` - registered
 * `&euro;` - euros
+* `&nbsp;` - non-breaking space
 
 ::: warning 🔥Note
-Do not use `-` in html text but rather `&ndash;`, `&mdash;` or `&minus;` depending on the context.
+Do not use `-` in html text but rather `&ndash;`, `&mdash;` or `&minus;` depending on the context. <br>The same for `<`, `>` and `&`, use `&lt;`, `&gt;` and  `&amp;`
 :::
 
 #### Quotes
@@ -565,4 +566,9 @@ A `<aside>` element can have two purposes:
 
 A `<section>` element groups information that belongs together and can contain several `<article>` elements.
 
+## HTML validation
+Sometimes your webpage may not display correctly in the browser as expected. Additionally, there may be differences in how your webpage appears across different browsers. Possible causes:
+* Although HTML has been standardized by [W3C](https://www.w3.org), some HTML tags, especially newer ones, may not be supported or correctly interpreted by the browser. 
+  * Note: HTML5 is still being developed, new tags are occasionally added but not immediately supported by all browsers.
+* More likely, there are certain **syntax errors** in your HTML code: some elements that should be closed are not closed, some elements like `p` should not be nested within each other, etc. However, the browser will never show error messages for syntax errors! Instead, it tries to render something from your HTML code. **This is why it's important to validate your HTML code, which can be done using the [W3C HTML Validator](https://validator.w3.org).** A valid HTML document provides a better guarantee that your webpage will be displayed correctly in different browsers.
 
