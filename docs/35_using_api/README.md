@@ -9,9 +9,9 @@ For now we will be using public API's. For some of them you will need to registe
 Always look if a API service is free or behind a payment plan.
 :::
 
-## Example with public API
+## Example 1: using a public API
 
-We will be making a webpage (no styling) with a button that recieves data on your internet connection from the API `ipinfo.io` and displays it on the page.
+We will be making a webpage (no styling) with a button that receives data on your internet connection from the API `ipinfo.io` and displays it on the page.
 
 For this we use a `index.html` file with the following content:
 
@@ -22,11 +22,11 @@ For this we use a `index.html` file with the following content:
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example public API</title>
-    <script defer src="./resources/js/script.js"></script>
+    <title>Example 1: using a public API</title>
+    <script src="resources/js/script.js"></script>
 </head>
 <body>
-    <button onclick="getIp()">Get My Ip Adress</button>
+    <button id="buttonIp">Get my ip address</button>
     <p id="ip"></p>
     <p id="isp"></p>    
     <p id="coordinates"></p>
@@ -34,37 +34,40 @@ For this we use a `index.html` file with the following content:
 </html>
 ```
 
-In Javascript we now need a `getIP` function, this function needs to be `async` because we have to wait for the response of the API service.
+In JavaScript we now need a `getIp` function, this function needs to be `async` because we have to wait for the response of the API service.
 
 To make that request we use the JavaScript `fetch` function with the URL as parameter:
 
 ```js
-let response = await fetch('https://ipinfo.io/json?token=<your-token>');
+let response = await fetch("https://ipinfo.io/json?token=<your-token>");
 ```
 
 We need the `await` because we need to wait for the response and don't want to freeze the application.
-The response we get from a API is always a JSON format as a string, so to handle the data better we need to convert this to a JSON object.
+The response we get from an API is always a JSON format as a string, so to handle the data better we need to convert this to a JSON object:
 
 ```js
-let ipinfo = await response.json();
+let ipInfo = await response.json();
 ```
 
-Finaly we use the recieved info to populate the `<p>` in HTML :
+Finally we use the received info to populate the `<p>` in HTML :
 
 ```js
+window.addEventListener("DOMContentLoaded", () => 
+{
+    document.getElementById("buttonIp").addEventListener("click", getIp);
+});
+
 async function getIp(){
-    let response = await fetch('https://ipinfo.io/json?token=<your-token>');
-    let ipinfo = await response.json();
-    console.log(ipinfo);
-    document.getElementById('ip').textContent=`Jouw IP-adres is ${ipinfo.ip} [ ${ipinfo.hostname} ]`;
-    document.getElementById('isp').textContent=`Je internet service provider is ${ipinfo.org}`;    
-    document.getElementById('coordinaten').textContent=`Je locale verbindng bevind zich op de coordinaten ${ipinfo.loc}`;
+    let response = await fetch("https://ipinfo.io/json?token=<your-token>");
+    let ipInfo = await response.json();
+    console.log(ipInfo);
+    document.getElementById("ip").textContent=`Your ip address is ${ipInfo.ip} [${ipInfo.hostname}]`;
+    document.getElementById("isp").textContent=`Your internet service provider is ${ipInfo.org}`;    
+    document.getElementById("coordinates").textContent=`Your local connnection has coordinates ${ipInfo.loc}`;
 }
 ```
 
-## Example with a JSON file that represents a response from a API
-
-<!-- TODO :  de starterfiles nog voorzien in het engels -->
+## Example 2: using a JSON file that represents a response from a API
 
 For this example we will be using [these starter files](/files/startfiles_example2.zip) containing the HTML and CSS and also a JSON file containing the response data from a API.
 
@@ -116,7 +119,7 @@ let datum = document.createTextNode(data.Date);
 cell.appendChild(datum);
 ```
 
-continue adding cells for all the data.
+Continue adding cells for all the data =such as temperature, humidity and CO<sub>2</sub>.
 
 The result should look like this:
 

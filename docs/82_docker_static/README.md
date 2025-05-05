@@ -39,15 +39,16 @@ services:
       - ./website:/usr/local/apache2/htdocs
     restart: always
 ```
-* `version: '3'` : This instructs Docker Compose that we’re using version 3 of the tool.
-* `httpd:` : The Apache HTTP Server
-* `services:` : This will instruct Docker Compose that what follows will be the services to deploy.
-* `restart: allways` : We instruct Docker to always retry to start this service unless it was stopped by the admin.
-* `ports:` : We define both the external and internal ports to use for the database.
+* `version: '3'` specifies that Docker Compose version 3 is being used. This setting seems to be optional with newer Docker versions ...
+* `httpd:` refers to the Apache HTTP Server, which is defined here as a service.
+* `services:` indicates that the following configuration describes the services to be deployed by Docker Compose.
+* `volumes:` maps a folder on the host machine to a folder inside the container. Here, `./website` (relative to the location of the `docker-compose.yml` file) is mapped to `/usr/local/apache2/htdocs` inside the container, which is Apache's default webroot.
+* `restart: always` instructs Docker to always try to restart this service unless it was explicitly stopped by an administrator.
+* `ports:`: defines the mapping between the host machine's port (external) and the container's port (internal). In this case, port 80 on the host is mapped to port 80 inside the container.
 
 Now the preperation is ready and you can **push everyting the GitHub**.
 
-## Clone and deploy your project
+## Clone and deploy your project in the VM
 
 ### Making a remote connection to your VM
 
@@ -81,4 +82,6 @@ The only thing left to do is deploying your website by starting the docker conta
 * To view logs : `docker compose ps`
 * To view a list of the containers : `docker compose ls`
 
-Now everyone connected to the `devbit` network can acces your website through it's IP adress.
+ Note: if you get an error about permissions, add `sudo` before the command.
+
+Now everyone connected to the `devbit` network can browse to your website via `http://<ip address>`.

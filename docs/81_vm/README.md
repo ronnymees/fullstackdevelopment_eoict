@@ -18,11 +18,13 @@ Next we will be making some one-time adjustments and installations on your VM.
 
 To be able to connect to your VM you need to setup the connection with your GitHub ssh-key.
 
-Open a `powershell` and connect to your VM:
+Open a terminal (e.g. Powerhell) and connect to your VM with username and ip address.
 
 ```bash
-ssh student@<your-vm-ip-adress>
+ssh <username>@<ip address>
 ```
+
+Logging in for the first time can sometimes take a while.
 *If asked if you want to continue just type `yes`.*
 
 You will be asked for your *password*.
@@ -58,5 +60,5 @@ exit
 
 With that last `exit` command you will disconnect from your VM and get the windows commandprompt again.
 
-You can close the `powershell` now.
+You can close the terminal now.
 
