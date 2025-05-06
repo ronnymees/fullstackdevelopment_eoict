@@ -46,8 +46,7 @@ export default {
           '/31_communication/README.md',
           '/32_frontend_scripting_js/README.md',
           '/35_using_api/README.md',
-          '/33_typescript/README.md',
-          '/34_advanced_js/README.md',
+          '/33_typescript/README.md',          
         ]
       },{
         text: 'Backend databases',
@@ -61,6 +60,7 @@ export default {
       },{
         text: 'Backend Scripting',
         children: [
+          '/34_advanced_js/README.md',
           '/51_intro_express/README.md',
           '/52_rest_api_crud/README.md',
           '/53_rest_api_fileupload/README.md',

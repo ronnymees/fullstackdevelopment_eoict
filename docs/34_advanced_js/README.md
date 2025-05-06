@@ -133,7 +133,7 @@ Bam — you’ve just written Hello World in Node.js.
 
 First up, what’s the deal with `const`, `let`, and `var`?
 
-You’ve probably been a witness to one of these situations — `let` and/or `const` being substituted for `var`, or `let` and `const` being used in the same code at the same time, or even more perplexing, `let`, `const` AND `var` all being used at the once!?
+You’ve probably witnessed one of these situations — `let` and/or `const` being substituted for `var`, or `let` and `const` being used together in the same code, or even more perplexing: `let`, `const` AND `var` all being used at once!
 
 Hey no worries, I got you. Let’s clear this fog together:
 
@@ -337,7 +337,9 @@ This is known as a JavaScript quirk, meaning something that just happens within 
 
 Before we continue, it’s important to be aware of two clever ways programmers solve the `this` problem within ES5 code, especially since you will continue to run into ES5 for awhile (not every browser has fully migrated to ES6 yet):
 
-\#1 Create a variable outside of the method’s inner function. Now the ‘forEach’ method gains access to `this` and thus the object’s properties and their values. This is because `this` is being stored in a variable while it is still within the scope of the object’s direct method ‘showTasks’.
+**1 Create a variable outside of the method’s inner function**
+
+Now the ‘forEach’ method gains access to `this` and thus the object’s properties and their values. This is because `this` is being stored in a variable while it is still within the scope of the object’s direct method ‘showTasks’.
 
 ```javascript
 // Test it here: https://jsfiddle.net/maasha/3mu5r6vg/
@@ -358,7 +360,7 @@ bunny.showTasks();
 // Usagi wants to blow kisses
 ```
 
-\#2 Use bind to attach the `this` keyword that refers to the method to the method’s inner function.
+**2 Use bind to attach the `this` keyword that refers to the method to the method’s inner function**
 
 ```javascript
 // Test it here: https://jsfiddle.net/maasha/u8ybgwd5/
