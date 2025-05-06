@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Beveiligde toegang</title>
+</head>
+<body>
+  <h2>Voer wachtwoord in om toegang te krijgen</h2>
+  <input type="password" id="pw" placeholder="Wachtwoord">
+  <button onclick="checkPassword()">Login</button>
+  <p id="error" style="color:red;"></p>
+
+  <script>
+    // SHA-256 hash van het correcte wachtwoord 'geheim123'
+    const expectedHash = "6b3f8b16d2aa01e194e6b1cca3ab2f2c2c35da2c3874fef0e243549b5fa57582";
+
+    async function sha256(str) {
+      const buffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkPassword() {
+      const input = document.getElementById("pw").value;
+      const inputHash = await sha256(input);
+      if (inputHash === expectedHash) {
+        window.location.href = "/home/";
+      } else {
+        document.getElementById("error").innerText = "Fout wachtwoord.";
+      }
+    }
+  </script>
+</body>
+</html>

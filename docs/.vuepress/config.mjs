@@ -8,6 +8,7 @@ export default {
   lang: 'en-US',
   title: 'Full Stack Development',
   description: 'Course Full Stack Development',
+  base: '/home/',
   
   theme: defaultTheme({
     colorMode: 'light',
