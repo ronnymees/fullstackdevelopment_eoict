@@ -5,7 +5,6 @@ import { defaultTheme } from '@vuepress/theme-default'
 import { viteBundler } from '@vuepress/bundler-vite'
 
 export default {
-  base: '/home/',
   lang: 'en-US',
   title: 'Full Stack Development',
   description: 'Course Full Stack Development',
