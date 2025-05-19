@@ -33,6 +33,7 @@ npm install -D nodemon
 Now we need to add these lines to our `package.json` file:
 
 ``` json{3,4}
+"type": "module",  // only if you will be using node.js 6
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
