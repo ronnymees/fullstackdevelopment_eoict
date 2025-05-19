@@ -15,14 +15,30 @@ entry point: src/server.js
 Now install Express in the *myapp* directory and save it in the dependencies list.
 
 ```bash
-npm install express
+npm install express@4 
+# you can remove the @4 once version 5 supports all features
 ```
 
 Your backend application is now *Express ready*.
 
 ## Hello World example
 
-Go to [Express](https://expressjs.com/en/starter/hello-world.html) to get the *Hello World example code* and place it in a new file `src/server.js` (the entry point you selected).
+Creat the file `src/server.js` (the entry point you selected) with the following content:
+
+```js
+import express from 'express';
+
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+});
+```
 
 To be able to run this in development mode we will install `nodemon`:
 
@@ -32,8 +48,8 @@ npm install -D nodemon
 
 Now we need to add these lines to our `package.json` file:
 
-``` json{3,4}
-"type": "module",  // only if you will be using node.js 6
+``` json
+"type": "module",  
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
@@ -52,8 +68,7 @@ Let's take a closer look at the code.
 
 First we load all dependencies we need, in this case this is only Express.
 ```js
-const express = require('express'); // for node.js 5
-import express from 'express';      // for node.js 6
+import express from 'express';
 const app = express();
 ```
 
@@ -361,6 +376,7 @@ Now make a `.env` file in the root folder of our project with the following cont
 
 ```env
 DB_HOST=<hostname>
+DB_PORT=<port>
 DB_USER=<your username>
 DB_PASS=<your password>
 DB_DTBS=<database name>
@@ -382,27 +398,27 @@ Example:
 app.get('/products', db.getAllProducts);
 ```
 
-In the `db.js` file we need define our methode:
+In the `db.js` file we need define our methode and import the necessary modules:
 
 ```js
+import mysql from 'mysql';
+import dotenv from 'dotenv';
+dotenv.config();                                    
+
 // get all products 
-getAllProducts = (req, res) => {
+const getAllProducts = (req, res) => {
     // code will be added here
 }
 ...
-module.exports = { getAllProducts, ... };
+export default { getAllProducts, ... };
 ```
 
 First we import our database credentials and make a connection (in our methode):
 
 ```js
 // db credentials import
-require('dotenv').config();       // for node.js 5
-const mysql = require("mysql");
-import dotenv from 'dotenv';      // for node.js 6
-dotenv.config();                                    
-import mysql from ('mysql');
 const DB_HOST = process.env.DB_HOST;
+const DB_PORT = process.env.DB_PORT;
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 const DB_DTBS = process.env.DB_DTBS;
@@ -410,6 +426,7 @@ const DB_DTBS = process.env.DB_DTBS;
 const connection = mysql.createConnection({
     host: DB_HOST,
     user: DB_USER,
+    port: DB_PORT,
     password: DB_PASS,
     database: DB_DTBS
 });

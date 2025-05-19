@@ -408,3 +408,13 @@ This enables the following HTTP headers:
 * Disable X-Powered-By
 
 These headers prevent malicious users from various types of attacks such as clickjacking, cross-site scripting, etc.
+
+## Don't share your .env-file
+
+It is considered good practice to use a .env file to hide credentials and sensitive information for the users.
+But if you don't include that file in your `.gitignore` file those credentials and sensitive information will be pushed to your very public GitHub repository!
+
+:::warning 💢Caution
+* In your local development you can use a `.env` file to store your sensitive information but you need to include that file in your `.gitignore` file!
+* Make a `.env-example` file so people who want to deploy your project know what they need to include in the `.env` file.
+:::
