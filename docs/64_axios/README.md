@@ -467,3 +467,91 @@ message: "Request failed with status code 404"
 name: "Error"
 ...
 ```
+
+## Using Axios with Async/Await
+
+The Async-await method is the preferred/standard in modern frameworks.
+Let's see how we can apply this with Axios.
+
+We can create a methode for the task at hand:
+
+```js
+async function createPost() {
+  try {
+    const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
+      userId: '1',
+      title:  'Article title',
+      body:   'Article body content'
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+And use that in our code:
+
+```js
+export default {
+  mounted() {
+    createPost();
+  }
+}
+```
+
+These are some examples for the GET, POST, PUT and PATCH requests:
+
+```js
+const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+async function getUsers() {
+  try {
+    const response = await axios.get(apiUrl);
+    console.log('GET - Users:', response.data);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+}
+
+async function createUser() {
+  try {
+    const newUser = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      phone: '123-456-7890'
+    };
+    const response = await axios.post(apiUrl, newUser);
+    console.log('POST - New User:', response.data);
+  } catch (error) {
+    console.error('Error creating user:', error);
+  }
+}
+
+async function replaceUser(userId) {
+  try {
+    const updatedUser = {
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      phone: '555-555-5555'
+    };
+    const response = await axios.put(`${apiUrl}/${userId}`, updatedUser);
+    console.log(`PUT - User ${userId} Replaced:`, response.data);
+  } catch (error) {
+    console.error(`Error replacing user ${userId}:`, error);
+  }
+}
+
+async function updateUser(userId) {
+  try {
+    const partialUpdate = {
+      email: 'updated@example.com'
+    };
+    const response = await axios.patch(`${apiUrl}/${userId}`, partialUpdate);
+    console.log(`PATCH - User ${userId} Updated:`, response.data);
+  } catch (error) {
+    console.error(`Error patching user ${userId}:`, error);
+  }
+}
+```
+
