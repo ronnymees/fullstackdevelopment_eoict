@@ -387,8 +387,7 @@ Now make a `db.js` file that contains the handles for the routes.
 In our `server.js` we add this package:
 
 ```js
-const db = require('./db'); // for node.js 5
-import db from './db';      // for node.js 6
+import db from './db.js'; 
 ```
 
 In the routes section of `server.js` you can refer to the handler methodes with `db.<name of methode>`.

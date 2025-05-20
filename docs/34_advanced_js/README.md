@@ -404,6 +404,15 @@ While in ES5 `this` referred to the parent of the function, in ES6, arrow functi
 
 ### How to migrate functions from ES5 to ES6
 
+> **ECMAScript 5 (ES5P)**
+>
+> ES5 is also known as ECMAScript 2009 as it was released in 2009. It is a function contractors focus on how the objects are instantiated. For ES5 you have to write a function keyword and return, it to be used to define the function, like in normal general JavaScript language. 
+>
+> **ECMAScript 6 (ES6)**
+>
+> ES6 is also known as ECMAScript 2015 as it was released in 2015. Its class allows the developers to instantiate an object using the new operator, using an arrow function, in case it doesn’t need to use the function keyword to define the function, also return keyword can be avoided to fetch the computer value. 
+
+Let's start of with this ES5 code:
 ```javascript
 // Before
 let bunny = function(name) {

@@ -13,7 +13,7 @@ You must always validate or sanitize the data coming from the user or other enti
 You can use a node module called [validator](https://www.npmjs.com/package/validator) to perform the data validation. For example.
 
 ```js
-const validator = require('validator');
+import validator from 'validator';
 validator.isEmail('foo@bar.com'); //=> true
 validator.isEmail('bar.com'); //=> false
 ```
@@ -21,7 +21,7 @@ validator.isEmail('bar.com'); //=> false
 You can also use a module called [joi](https://www.npmjs.com/package/joi) to perform the data/schema validation. For example.
 
 ```js
-  const joi = require('joi');
+  import joi from 'joi';
   try {
     const schema = joi.object().keys({
       name: joi.string().min(3).max(45).required(),
@@ -87,7 +87,7 @@ The most useful way to prevent SQL injection attacks is to sanitize input data. 
 Let’s learn by example. The codebase shown below is using mysql module for Node.
 
 ```js
-var mysql = require('mysql');
+import mysql from 'mysql';
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'me',
@@ -116,7 +116,7 @@ JavaScript is a dynamic typed language i.e a value can be of any type. You can u
 For example, let’s refer to the code we shown above.
 
 ```js
-var mysql = require('mysql');
+import mysql from 'mysql';
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'me',
@@ -157,7 +157,7 @@ The Hashing algorithm we suggest you is **BCrypt**. At the time of writing this 
 Please refer to the example code below.
 
 ```js
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 const saltRounds = 10;
 const password = "Some-Password@2023";
@@ -179,7 +179,7 @@ The **SaltRounds** function is the cost of the hash function. The higher the cos
 Once the hash is generated for a password, the password entered by the user will be compared to the hash stored in the database. Refer to the code below for reference.
 
 ```js
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 const incomingPassword = "Some-Password@2023";
 const existingHash = "some-hash-previously-generated"
@@ -209,7 +209,7 @@ If you are using bcrypt then you can use **varchar(60)** field because bcrypt wi
 A system with proper user roles and permission prevents malicious users to act outside of their permission. To achieve a proper authorization process, proper roles and permissions are assigned to each user so that they can do certain tasks and nothing more. In Node.js, you can use a famous module called **ACL** to develop access control lists based authorization in your system.
 
 ```js
-const ACL = require('acl2');
+import ACL from 'acl2';
 const acl = new ACL(new ACL.memoryBackend());
 // guest is allowed to view blogs
 acl.allow('guest', 'blogs', 'view')
@@ -240,7 +240,7 @@ npm install express-brute --save
 Enable it in your route.
 
 ```js
-const ExpressBrute = require('express-brute');
+import ExpressBrute from 'express-brute';
 const store = new ExpressBrute.MemoryStore(); // stores state locally, don't use this in production
 const bruteforce = new ExpressBrute(store);
  
@@ -281,8 +281,8 @@ path – in addition to the domain, the URL path that the cookie is valid for ca
 You can use **express-session** npm module to perform session management in the Express framework.
 
 ```js
-const express = require('express');
-const session = require('express-session');
+import express from 'express';
+import session from 'express-session';
 const app = express();
 
 app.use(session({
@@ -298,10 +298,10 @@ app.use(session({
 CSRF is an attack where that manipulates a trusted user of a system to execute unwanted malicious actions on a web application. In Node.js, we can use **csurf** module to mitigate CSRF attack. This module requires either **express-session** or **cookie-parser** to be initialized first. You can check out the example code below.
 
 ```js
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const csrf = require('csurf');
-const bodyParser = require('body-parser');
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
+import bodyParser from 'body-parser';
  
 // setup route middlewares
 const csrfProtection = csrf({ cookie: true });
@@ -388,8 +388,8 @@ npm install helmet --save
 Here is how to use it.
 
 ```js
-const express = require("express");
-const helmet = require("helmet");
+import express from 'express';
+import helmet from 'helmet';
 
 const app = express();
 app.use(helmet());
