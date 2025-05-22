@@ -65,7 +65,7 @@ services:
       - DB_PASS=${MYSQLDB_USER_PASS}
       - DB_NAME=${MYSQLDB_DATABASE}
       - DB_PORT=3306
-      - VUE_HOST=${VUE_HOST}:5000
+      - VUE_HOST=${PROJECT_IP}:5000
     depends_on:
       - db
   vue:
@@ -74,10 +74,12 @@ services:
       context: ./vue
       dockerfile: Dockerfile
       args:
-        VUE_APP_API_HOST: ${API_HOST}:3000
+        VITE_API_HOST: ${PROJECT_IP}:3000
     restart: unless-stopped
     ports:
-      - 5000:80    
+      - 5000:80   
+    environment:
+      - API_HOST=api
     depends_on: 
       - api
 ``` 
@@ -116,9 +118,10 @@ COPY . .
 
 # Build Stage
 FROM develop-stage AS build-stage
-ARG VUE_APP_API_HOST
-ENV VITE_API_HOST ${VUE_APP_API_HOST}
-RUN npm run build
+ARG VITE_API_HOST
+ENV VITE_API_HOST ${VITE_API_HOST}
+RUN chmod +x node_modules/.bin/vite
+RUN VITE_API_HOST=$VITE_API_HOST npm run build
 
 # Production Stage
 FROM nginx:1.27-alpine AS production-stage
@@ -214,8 +217,7 @@ MYSQLDB_ROOT_PASSWORD=<your root password>
 MYSQLDB_DATABASE=vives
 MYSQLDB_USER=<a_user_for_your_database>
 MYSQLDB_USER_PASS=<a_password_for_this_user>
-API_HOST=localhost 
-VUE_HOST=localhost
+PROJECT_IP=<the ip adress of your docker container>
 ```
 
 #### Change static URL to environment variable
@@ -266,17 +268,13 @@ Once we have done that, we are ready to build and run our service.
 * use `docker-compose down` to stop and remove the docker containers.
 * use `docker-compose down -v` to stop and remove the docker containers and volumes.
 
-![containers](./images/containers.png)exit
+![containers](./images/containers.png)
 
 Should you want to open a terminal in one of the containers running on docker, you can do this by using this command:
 ```bash
 docker exec -it <the name of the container> sh
 ```
 To exit just type `exit`.
-
-
-
-
 
 Congratulations your project should be up and running now.
 
