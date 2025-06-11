@@ -1,17 +1,11 @@
 # Deploy a MySQL, Express & Vue project
 
-:::warning 🔥warning
-Make sure you have prepared your VM before continuing here.
-:::
-
-To be able to deploy our web application on the VM we need to prepare it.
-
 ## Create a GitHub repository for deployment
 
 * create a new repository on github
-* create a local folder `<projectname>` with the subfolders `db`, `api` and `vue`.
-* make a copy of your **express project** to the folder `api`.
-* make a copy of your **vue project** to the folder `vue`.
+* create a local folder `<projectname>` with the subfolders `db`, `backend` and `frontend`.
+* make a copy of your **express project** to the folder `backend`.
+* make a copy of your **vue project** to the folder `frontend`.
 * open the folder `<projectname>` in Visual Code and open a terminal
 * make it a git repository by typing `git init`.
 * add the remote GitHub repository by typing `git remote add origin git@github.com:yourusername/repositoryname.git` (the last part is your SSH link from your GitHub repository)
@@ -26,35 +20,23 @@ First we will be creating the docker compose file that will contain the necessar
 Create a file `docker-compose.yml` in the folder  `<projectname>` with the following content:
 
 ``` yaml
-version: '3'
 services:
-  db:
-    container_name: db
-    image: mysql
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQLDB_DATABASE}
-    volumes:
-      - ./db/init:/docker-entrypoint-initdb.d
-      - ./db/data:/var/lib/mysql
-  phpmyadmin:
-    container_name: phpmyadmin
-    image: phpmyadmin
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_HOST: ${PROJECT_IP}:3000
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - 5000:80   
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
-    depends_on:
-      - db
-  api:
-    container_name: api
+      - API_HOST=backend
+    depends_on: 
+      - backend
+  backend:
     build:
-      context: ./api
+      context: ./backend
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
@@ -67,28 +49,35 @@ services:
       - DB_PORT=3306
       - VUE_HOST=${PROJECT_IP}:5000
     depends_on:
-      - db
-  vue:
-    container_name: vue
-    build:
-      context: ./vue
-      dockerfile: Dockerfile
-      args:
-        VITE_API_HOST: ${PROJECT_IP}:3000
+      - db  
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQLDB_DATABASE}
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin
     restart: unless-stopped
     ports:
-      - 5000:80   
+      - "8080:80"
     environment:
-      - API_HOST=api
-    depends_on: 
-      - api
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+    depends_on:
+      - db
 ``` 
 
 Notice that the MySQL server port 3306 is not exposed, so our database is not accessable outside docker.
 
 ### Docker file for the backend API
 
-Create a file `Dockerfile` in the folder `backend-api` with the following content:
+Create a file `Dockerfile` in the folder `backend` with the following content:
 
 ``` yaml
 # Development stage
@@ -106,11 +95,11 @@ CMD ["npm", "run", "start"]
 
 ### Docker file for the frontend Vue
 
-Create a file `Dockerfile` in the folder `frontend-vue` with the following content:
+Create a file `Dockerfile` in the folder `frontend` with the following content:
 
 ``` yaml
 # Development Stage
-FROM node:23-alpine AS develop-stage
+FROM node:20-alpine AS develop-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -133,7 +122,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ### Hosting configuration
 
-We are using `nginx` to host our frontend, therefore we need to configure it by adding a `nginx.conf` file in the `frontend-vue` folder with the following content:
+We are using `nginx` to host our frontend, therefore we need to configure it by adding a `nginx.conf` file in the `frontend` folder with the following content:
 
 ```conf
 user  nginx;
@@ -179,10 +168,20 @@ import cors from 'cors';
 const app = express()
 ...
 var corsOptions = {
-  origin: `http://${process.env.VUE_HOST}`
+  origin: [`http://${process.env.VUE_HOST}`, `https://${process.env.VUE_HOST}`]
 };
 app.use(cors(corsOptions));
 ...
+```
+
+### Docker ignore
+
+In both the backend and frontend folder you should create a `.dockerignore` with the following content:
+
+```txt
+node_modules
+dist
+.env
 ```
 
 ### Push to your GitHub repository
@@ -226,7 +225,7 @@ In your Vue project you need to change all `localhost:3000` to `${import.meta.en
 
 Example:
 ```js
-axios.get('http://${import.meta.env.VITE_API_HOST}/images')
+axios.get(`http://${import.meta.env.VITE_API_HOST}/images`)
 ```
 
 ### Prepare the database

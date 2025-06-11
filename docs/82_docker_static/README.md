@@ -1,15 +1,11 @@
 # Deploy a HTML,CSS & JS project
 
-:::warning 🔥warning
-Make sure you have prepared your VM before continuing here.
-:::
-
 ## Prepare your project for deployment
 
 To be able to deploy our website on the VM we need to prepare it.
 
 :::tip 💡tip
-Please check if all your URL's are relative (HTML and CSS)
+Please check if all your URL's are relative (HTML, CSS and JS)
 :::
 
 ### Create a GitHub repository for deployment
@@ -29,22 +25,20 @@ We will be deploying our website in a docker container, so the first thing we ne
 Create a file `docker-compose.yml` in the folder  `<projectname>` with the following content:
 
 ``` yaml
-version: '3'
 services:
-  httpd:
-    image: httpd:latest
+  frontend:
+    image: nginx:1.24.0
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
-      - ./website:/usr/local/apache2/htdocs
-    restart: always
+      - ./website:/usr/share/nginx/html
+    restart: unless-stopped
 ```
-* `version: '3'` specifies that Docker Compose version 3 is being used. This setting seems to be optional with newer Docker versions ...
-* `httpd:` refers to the Apache HTTP Server, which is defined here as a service.
-* `services:` indicates that the following configuration describes the services to be deployed by Docker Compose.
-* `volumes:` maps a folder on the host machine to a folder inside the container. Here, `./website` (relative to the location of the `docker-compose.yml` file) is mapped to `/usr/local/apache2/htdocs` inside the container, which is Apache's default webroot.
-* `restart: always` instructs Docker to always try to restart this service unless it was explicitly stopped by an administrator.
-* `ports:`: defines the mapping between the host machine's port (external) and the container's port (internal). In this case, port 80 on the host is mapped to port 80 inside the container.
+* `frontend:` is the name of the service. You can call it anything (frontend, web, site, etc.). 
+* `image: nginx:1.24.0` tells Docker to use the official **Nginx image**, specifically version 1.24.0.
+* `ports:` exposes the internal port `80` of Nginx to the outside world on port `8080`.
+* `volumes:` this mounts the local folder `./website` (relative to the docker-compose.yml file) to the container’s default Nginx web root (`/usr/share/nginx/html`).
+* `restart: unless-stopped` ensures Docker will **automatically restart the container** if it stops or crashes unless it is manually stopped.
 
 Now the preperation is ready and you can **push everyting the GitHub**.
 
@@ -82,6 +76,6 @@ The only thing left to do is deploying your website by starting the docker conta
 * To view logs : `docker compose ps`
 * To view a list of the containers : `docker compose ls`
 
- Note: if you get an error about permissions, add `sudo` before the command.
+Note: if you get an error about permissions, add `sudo` before the command.
 
 Now everyone connected to the `devbit` network can browse to your website via `http://<ip address>`.

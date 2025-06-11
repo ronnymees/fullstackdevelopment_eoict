@@ -84,7 +84,7 @@ export default {
       },{
         text: 'Deployment',
         children: [
-          '/81_vm/README.md',
+          '/81_containers_and_virtual_machines/README.md',
           '/82_docker_static/README.md',
           '/83_docker_full/README.md',          
         ],

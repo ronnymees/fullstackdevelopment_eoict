@@ -23,7 +23,7 @@ During this course you will learn the basics of HTML5, CSS3, Javascript, Typescr
 This work is the result of the knowledge of the writer & colleagues at VIVES University college:
 
 * Ronny Mees
-* Nico De Witte, Sille Van Landschoot, Jeroen Reinenbergh and Ludovic Espeel
+* Nico De Witte, Sille Van Landschoot, Jeroen Reinenbergh, Ludovic Espeel and Alexander D'hoore.
 
 And professionally relevant sources such as:
 
