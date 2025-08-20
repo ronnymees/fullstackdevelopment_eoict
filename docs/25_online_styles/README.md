@@ -61,7 +61,7 @@ Fortunately, it is not necessary to create your own icon set. Font Awesome provi
 To load FontAwesome you proceed in the same way.
 
 ```html
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" type="text/css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 ```
 
 ### Adding an icon 

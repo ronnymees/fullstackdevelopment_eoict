@@ -535,6 +535,38 @@ ul {
 }
 ```
 
+## CSS variables
+
+CSS variables, also called custom properties, allow you to store values that can be reused throughout your stylesheet. This makes your code easier to maintain, more consistent, and quicker to update.
+
+A CSS variable is defined inside a selector, most often inside the :root selector so that it is available globally:
+
+```css
+:root {
+  --main-color: #3498db;
+  --padding: 1rem;
+}
+```
+
+To use a variable, you reference it with the var() function:
+
+```css
+button {
+  background-color: var(--main-color);
+  padding: var(--padding);
+}
+```
+
+If you later decide to change --main-color, you only need to update it in one place, and the change will be applied everywhere the variable is used.
+
+CSS variables can also have fallback values in case the variable is not defined:
+
+```css
+color: var(--text-color, black);
+```
+
+In modern web development, variables are especially useful for creating consistent color palettes, spacing systems, and themes (such as light and dark mode).
+
 ## CSS validation
 
 Sometimes your webpage may not display correctly in the browser as expected. Additionally, there may be differences in how your webpage appears across different browsers. Possible causes:

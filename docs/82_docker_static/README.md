@@ -71,10 +71,10 @@ git clone <https link repo>
 
 The only thing left to do is deploying your website by starting the docker container.
 
-* To start : `docker compose up -d`
-* To stop : `docker compose down`
-* To view logs : `docker compose ps`
-* To view a list of the containers : `docker compose ls`
+* To start : `docker-compose up -d`
+* To stop : `docker-compose down`
+* To view logs : `docker-compose ps`
+* To view a list of the containers : `docker-compose ls`
 
 Note: if you get an error about permissions, add `sudo` before the command.
 
